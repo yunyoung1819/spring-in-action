@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.hateoas.EntityLinks;
-import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpStatus;
@@ -13,6 +12,9 @@ import tacos.Taco;
 import tacos.data.TacoRepository;
 
 import java.util.List;
+
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 
 @RestController
@@ -37,7 +39,8 @@ public class DesignTacoController {
     Resources<Resource<Taco>> recentResources = Resources.wrap(tacos);
 
     recentResources.add(
-            new Link("http://localhost:8080/design/recent", "recents"));
+            linkTo(methodOn(DesignTacoController.class).recentTacos())
+                    .withRel("recents"));
     return recentResources;
   }
 
