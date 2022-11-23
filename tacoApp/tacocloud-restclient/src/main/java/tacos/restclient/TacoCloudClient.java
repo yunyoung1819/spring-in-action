@@ -27,4 +27,9 @@ public class TacoCloudClient {
 	public void updateIngredient(Ingredient ingredient) {
 		rest.put("http://localhost:8080/ingredients/{id}", ingredient, ingredient.getId());
 	}
+
+	// DELETE
+	public void deleteIngredient(Ingredient ingredient) {
+		rest.delete("http://localhost:8080/ingredients/{id}", ingredient.getId());
+	}
 }
