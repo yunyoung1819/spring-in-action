@@ -32,4 +32,9 @@ public class TacoCloudClient {
 	public void deleteIngredient(Ingredient ingredient) {
 		rest.delete("http://localhost:8080/ingredients/{id}", ingredient.getId());
 	}
+
+	// POST
+	public Ingredient createIngredient(Ingredient ingredient) {
+		return rest.postForObject("http://localhost:8080/ingredients", ingredient, Ingredient.class);
+	}
 }
