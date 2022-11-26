@@ -23,6 +23,21 @@ public class TacoCloudClient {
 		return rest.getForObject("http://localhost:8080/ingredients/{id}", Ingredient.class, ingredientId);
 	}
 
+//	public Ingredient getIngredientById(String ingredientId) {
+//		Map<String, String> urlVariables = new HashMap<>();
+//		urlVariables.put("id", ingredientId);
+//		return rest.getForObject("http://localhost:8080/ingredients/{id}", Ingredient.class, urlVariables);
+//	}
+
+//	public Ingredient getIngredientById(String ingredientId) {
+//		Map<String, String> urlVariables = new HashMap<>();
+//		urlVariables.put("id", ingredientId);
+//		URI url = UriComponentsBuilder
+//				.fromHttpUrl("http://localhost:8080/ingredients/{id}")
+//				.build(urlVariables);
+//		return rest.getForObject(url, Ingredient.class);
+//	}
+
 	// PUT
 	public void updateIngredient(Ingredient ingredient) {
 		rest.put("http://localhost:8080/ingredients/{id}", ingredient, ingredient.getId());
@@ -31,10 +46,5 @@ public class TacoCloudClient {
 	// DELETE
 	public void deleteIngredient(Ingredient ingredient) {
 		rest.delete("http://localhost:8080/ingredients/{id}", ingredient.getId());
-	}
-
-	// POST
-	public Ingredient createIngredient(Ingredient ingredient) {
-		return rest.postForObject("http://localhost:8080/ingredients", ingredient, Ingredient.class);
 	}
 }
