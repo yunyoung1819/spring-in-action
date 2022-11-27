@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import tacos.Ingredient;
+import tacos.Taco;
 
 import java.net.URI;
 import java.util.Collection;
@@ -79,4 +80,28 @@ public class TacoCloudClient {
 					.toObject(ingredientType);
 
 	Collection<Ingredient> ingredients = ingredientRes.getContent();
+
+	// 가장 최근에 생성된 타코 가져오기
+	ParameterizedTypeReference<Resources<Taco>> tacoType =
+			new ParameterizedTypeReference<Resources<Taco>>() {};
+
+//	Resources<Taco> tacoRes =
+//			traverson
+//					.follow("tacos")
+//					.follow("recents")
+//					.toObject(tacoType);
+
+	Resources<Taco> tacoRes =
+			traverson
+					.follow("tacos", "recents")
+					.toObject(tacoType);
+
+	Collection<Taco> tacos = tacoRes.getContent();
+
+	// 새로운 식자재(Ingredient 객체)를 타코 클라우드 메뉴에 추가
+	private Ingredient addIngredient(Ingredient ingredient) {
+		String ingredientsUrl = traverson.follow("ingredients").asLink().getHref();
+
+		return rest.postForObject(ingredientsUrl, ingredient, Ingredient.class);
+	}
 }
