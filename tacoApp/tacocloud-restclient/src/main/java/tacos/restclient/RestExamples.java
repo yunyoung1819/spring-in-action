@@ -1,6 +1,7 @@
 package tacos.restclient;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -8,8 +9,10 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.client.Traverson;
 import org.springframework.web.client.RestTemplate;
+import tacos.Ingredient;
 
 import java.net.URI;
+import java.util.List;
 
 @SpringBootConfiguration
 @ComponentScan
@@ -30,5 +33,36 @@ public class RestExamples {
 		Traverson traverson = new Traverson(
 				URI.create("http://localhost:8080/api"), MediaTypes.HAL_JSON);
 		return traverson;
+	}
+
+	@Bean
+	public CommandLineRunner fetchIngredients(TacoCloudClient tacoCloudClient) {
+		return args -> {
+			log.info("----- GET -----");
+			log.info("GETTING INGREDIENT BY ID");
+			log.info("Ingredient: " + tacoCloudClient.getIngredientById("CHED"));
+		};
+	}
+
+	@Bean
+	public CommandLineRunner putAnIngredient(TacoCloudClient tacoCloudClient) {
+		return args -> {
+			log.info("----- PUT -----");
+			Ingredient before = tacoCloudClient.getIngredientById("LETC");
+			log.info("BEFORE: " + before);
+			tacoCloudClient.updateIngredient(new Ingredient("LETC", "Shredded Lettuce", Ingredient.Type.VEGGIES));
+			Ingredient after = tacoCloudClient.getIngredientById("LETC");
+			log.info("AFTER: " + after);
+		};
+	}
+
+	@Bean
+	public CommandLineRunner addAnIngredient(TacoCloudClient tacoCloudClient) {
+		return args -> {
+			log.info("----- POST -----");
+			Ingredient chix = new Ingredient("CHIX", "Shredded Chicken", Ingredient.Type.PROTEIN);
+			Ingredient chixAfter = tacoCloudClient.createIngredient(chix);
+			log.info("AFTER=1" + chixAfter);
+		};
 	}
 }

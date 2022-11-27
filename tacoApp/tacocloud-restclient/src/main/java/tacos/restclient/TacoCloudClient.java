@@ -44,6 +44,16 @@ public class TacoCloudClient {
 //		return rest.getForObject(url, Ingredient.class);
 //	}
 
+//	public Ingredient getIngredientById(String ingredientId) {
+//		ResponseEntity<Ingredient> responseEntity =
+//				rest.getForEntity("http://localhost:8080/ingredients/{id}",
+//						Ingredient.class, ingredientId);
+//
+//		log.info("Fetched time: " + responseEntity.getHeaders().getDate());
+//
+//		return responseEntity.getBody();
+//	}
+
 	public void updateIngredient(Ingredient ingredient) {
 		rest.put("http://localhost:8080/ingredients/{id}", ingredient, ingredient.getId());
 	}
@@ -71,37 +81,37 @@ public class TacoCloudClient {
 //		return responseEntity.getBody();
 //	}
 
-	ParameterizedTypeReference<Resources<Ingredient>> ingredientType =
-			new ParameterizedTypeReference<Resources<Ingredient>>() {};
+	public Iterable<Ingredient> getAllIngredientsWithTraverson() {
+		ParameterizedTypeReference<Resources<Ingredient>> ingredientType =
+				new ParameterizedTypeReference<Resources<Ingredient>>() {};
 
-	Resources<Ingredient> ingredientRes =
-			traverson
-					.follow("ingredients")
-					.toObject(ingredientType);
+		Resources<Ingredient> ingredientRes =
+				traverson
+						.follow("ingredients")
+						.toObject(ingredientType);
 
-	Collection<Ingredient> ingredients = ingredientRes.getContent();
+		Collection<Ingredient> ingredients = ingredientRes.getContent();
 
-	// 가장 최근에 생성된 타코 가져오기
-	ParameterizedTypeReference<Resources<Taco>> tacoType =
-			new ParameterizedTypeReference<Resources<Taco>>() {};
+		return ingredients;
+	}
 
-//	Resources<Taco> tacoRes =
-//			traverson
-//					.follow("tacos")
-//					.follow("recents")
-//					.toObject(tacoType);
+	public Iterable<Taco> getRecentTacosWithTraverson() {
+		// 가장 최근에 생성된 타코 가져오기
+		ParameterizedTypeReference<Resources<Taco>> tacoType =
+				new ParameterizedTypeReference<Resources<Taco>>() {};
 
-	Resources<Taco> tacoRes =
-			traverson
-					.follow("tacos", "recents")
-					.toObject(tacoType);
+		Resources<Taco> tacoRes =
+				traverson
+						.follow("tacos", "recents")
+						.toObject(tacoType);
+		Collection<Taco> tacos = tacoRes.getContent();
+		return tacos;
+	}
 
-	Collection<Taco> tacos = tacoRes.getContent();
 
 	// 새로운 식자재(Ingredient 객체)를 타코 클라우드 메뉴에 추가
 	private Ingredient addIngredient(Ingredient ingredient) {
 		String ingredientsUrl = traverson.follow("ingredients").asLink().getHref();
-
 		return rest.postForObject(ingredientsUrl, ingredient, Ingredient.class);
 	}
 }
