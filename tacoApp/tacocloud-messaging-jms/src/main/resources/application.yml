@@ -1,0 +1,12 @@
+spring:
+  artemis:
+    host: artemis.tacocloud.com
+    port: 61617
+    user: tacoweb
+    password: l3tm31n
+
+#spring:
+#  activemq:
+#    broker-url: tcp://activemq.tacocloud.com
+#    user: tacoweb
+#    password: l3tm31n
