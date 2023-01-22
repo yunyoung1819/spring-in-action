@@ -31,5 +31,6 @@
       <module>tacocloud-ui</module>
       <module>tacocloud-restclient</module>
       <module>tacocloud-messaging-jms</module>
+      <module>tacocloud-kitchen</module>
     </modules>
 </project>
