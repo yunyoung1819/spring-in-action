@@ -1,0 +1,4 @@
+spring:
+  rabbitmq:
+    tempalate:
+      receive-timeout: 30000
