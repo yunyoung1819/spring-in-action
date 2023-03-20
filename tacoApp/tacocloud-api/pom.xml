@@ -71,6 +71,11 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- 스프링부트 WebFlux 스타터 의존성 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 	</dependencies>
 
 </project>
