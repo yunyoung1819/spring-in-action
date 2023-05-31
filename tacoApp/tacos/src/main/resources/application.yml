@@ -18,8 +18,9 @@ taco:
 
 spring:
   data:
-    rest:
-      base-path: /api
+    cassandra:
+      keyspace-name: tacocloud
+      schema-action: recreate_drop_unused
 
 ---
 spring:
