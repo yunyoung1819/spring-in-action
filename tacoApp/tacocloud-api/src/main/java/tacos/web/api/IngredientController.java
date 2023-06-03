@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import reactor.core.publisher.Flux;
 import tacos.Ingredient;
 import tacos.data.IngredientRepository;
 
@@ -22,8 +23,7 @@ public class IngredientController {
   }
 
   @GetMapping
-  public Iterable<Ingredient> allIngredients() {
+  public Flux<Ingredient> allIngredients() {
     return repo.findAll();
   }
-  
 }

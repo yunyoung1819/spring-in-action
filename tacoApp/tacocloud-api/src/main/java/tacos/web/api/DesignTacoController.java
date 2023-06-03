@@ -9,6 +9,8 @@ import reactor.core.publisher.Mono;
 import tacos.Taco;
 import tacos.data.TacoRepository;
 
+import java.util.UUID;
+
 
 @RestController
 @RequestMapping(path = "/design", produces = "application/json")
@@ -23,45 +25,15 @@ public class DesignTacoController {
     this.tacoRepo = tacoRepo;
   }
 
-//  @GetMapping("/recent")
-//  public Resources<TacoResource> recentTacos() {
-//    PageRequest page = PageRequest.of(
-//            0, 12, Sort.by("createdAt").descending());
-//    List<Taco> tacos = tacoRepo.findAll(page).getContent();
-//
-//    List<TacoResource> tacoResources = new TacoResourceAssembler().toResources(tacos);
-//    Resources<TacoResource> recentResources = new Resources<TacoResource>(tacoResources);
-//
-//    recentResources.add(
-//            linkTo(methodOn(DesignTacoController.class).recentTacos())
-//                    .withRel("recents"));
-//    return recentResources;
-//  }
-
   @GetMapping("/recent")
   public Flux<Taco> recentTacos() {
     return tacoRepo.findAll().take(12);
   }
 
-//  @GetMapping("/{id")
-//  public Taco tacoById(@PathVariable("id") Long id) {
-//    Optional<Taco> optTaco = tacoRepo.findById(id);
-//    if (optTaco.isPresent()) {
-//      return optTaco.get();
-//    }
-//    return null;
-//  }
-
   @GetMapping("/{id}")
-  public Mono<Taco> tacoById(@PathVariable("id") Long id) {
+  public Mono<Taco> tacoById(@PathVariable("id") UUID id) {
     return tacoRepo.findById(id);
   }
-
-//  @PostMapping(consumes = "application/json")
-//  @ResponseStatus(HttpStatus.CREATED)
-//  public Taco postTaco(@RequestBody Taco taco) {
-//    return tacoRepo.save(taco);
-//  }
 
   @PostMapping(consumes = "application/json")
   @ResponseStatus(HttpStatus.CREATED)
