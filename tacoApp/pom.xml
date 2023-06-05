@@ -25,7 +25,6 @@
       <module>tacos</module>
       <module>tacocloud-api</module>
       <module>tacocloud-data</module>
-      <module>tacocloud-domain</module>
       <module>tacocloud-security</module>
       <module>tacocloud-web</module>
       <module>tacocloud-ui</module>
@@ -34,5 +33,7 @@
       <module>tacocloud-kitchen</module>
       <module>tacocloud-messaging-rabbitmq</module>
       <module>tacocloud-messaging-kafka</module>
+      <module>tacocloud-domain-mongodb</module>
+      <module>tacocloud-data-mongodb</module>
     </modules>
 </project>
